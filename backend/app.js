@@ -2,10 +2,7 @@ const express = require('express');
 const app = express();
 const booksRoutes = require('./routes/router');
 const userRoutes = require('./routes/Useroute')
-
 app.use(express.json());
-app.use('/api/router', booksRoutes);
-app.use('/api/auth', userRoutes);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,6 +10,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+app.use('/api/router', booksRoutes);
+app.use('/api/auth', userRoutes);
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri =  "mongodb://Test1:vRqUvcPQUtXCkBw5@ac-uw0grdo-shard-00-00.tevb15e.mongodb.net:27017,ac-uw0grdo-shard-00-01.tevb15e.mongodb.net:27017,ac-uw0grdo-shard-00-02.tevb15e.mongodb.net:27017/?ssl=true&replicaSet=atlas-3o8cmx-shard-0&authSource=admin&appName=Cluster0";
