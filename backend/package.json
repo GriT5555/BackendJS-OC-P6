@@ -2,10 +2,12 @@
   "dependencies": {
     "19": "^0.0.0",
     "24": "^0.0.0",
+    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
     "godb": "^0.6.2",
     "mon": "^0.0.8",
     "mongodb": "3.7",
-    "mongoose": "^9.6.2"
+    "mongoose": "^9.6.2",
+    "mongoose-unique-validator": "^6.1.1"
   }
 }

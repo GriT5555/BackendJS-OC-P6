@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const booksRoutes = require('./routes/router');
+const userRoutes = require('./routes/Useroute')
 
 app.use(express.json());
-app.use('.api/router', booksRoutes);
+app.use('/api/router', booksRoutes);
+app.use('/api/auth', userRoutes);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
