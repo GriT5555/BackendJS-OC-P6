@@ -5,6 +5,7 @@
     "bcrypt": "^6.0.0",
     "express": "^5.2.1",
     "godb": "^0.6.2",
+    "jsonwebtoken": "^9.0.3",
     "mon": "^0.0.8",
     "mongodb": "3.7",
     "mongoose": "^9.6.2",
