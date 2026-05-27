@@ -3,6 +3,14 @@ const User = require('../models/Usermod');
 const JWT = require('jsonwebtoken');
 
 exports.signup = (req, res, next) => {
+    console.log("BODY RECEIVED:", req.body);
+
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).json({
+            error: "Missing email or password"
+        });
+    }
+
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
         const user = new User({
