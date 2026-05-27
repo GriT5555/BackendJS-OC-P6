@@ -17,8 +17,4 @@ const storage = multer.diskStorage({
     }
 });
 
-if (!req.file) {
-  return res.status(400).json({ message: "No file uploaded" });
-}
-
 module.exports = multer({ storage }).single('image');

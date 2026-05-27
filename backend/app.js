@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 
 const path = require('path')
 app.use('/books', booksRoutes);
-app.use('/books', booksRoutes);
+app.use('/api/books', booksRoutes);
 app.use('/api/router', booksRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join (__dirname, 'images')));
