@@ -12,6 +12,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/api/books/test', (req, res) => {
+  res.json({ ok: true });
+});
+
 const path = require('path')
 app.use('/books', booksRoutes);
 app.use('/api/books', booksRoutes);
