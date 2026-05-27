@@ -1,13 +1,24 @@
 const Book = require('../models/books');
 
 exports.createBook = (req, res, next) => {
-  delete req.body._id;
+  const bookObject = JSON.parse(req.body.book);
+  delete bookObject._id;
+  delete bookObject._userId;
+  const book = new book({
+    ...bookObject,
+    userId: req.auth.userId, 
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` /* url gen */ 
+})  
+  book.save()
+  .then(() => { res.status(201).json({message: "Book uploaded!"})})
+  .catch(error => { res.status(400).json({error})})
+/*  delete req.body._id;
   const book = new book({
     ...req.body
   });
   book.save()
     .then(() => res.status(200).json({ message: 'Livre enregistré !'}))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(400).json({ error })); */
 };
 
 exports.updateBook = (req, res, next) => {

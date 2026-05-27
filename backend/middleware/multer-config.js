@@ -1,14 +1,14 @@
 const multer = require ("multer");
 
 const MIME_TYPES = {
-    'images/jpg':'jpg',
-    'images/jpeg':'jpeg',
-    'images/png':'png'
+    'image/jpg': 'jpg',
+    'image/jpeg': 'jpeg',
+    'image/png': 'png'
 }
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, 'books')
+        callback(null, 'images')
     },
     filename: (req, file, callback) => {
         const name = file.originalname.split(' ').join('_');
@@ -17,4 +17,8 @@ const storage = multer.diskStorage({
     }
 });
 
-module.exports = multer({ storage }).single('images');
+if (!req.file) {
+  return res.status(400).json({ message: "No file uploaded" });
+}
+
+module.exports = multer({ storage }).single('image');

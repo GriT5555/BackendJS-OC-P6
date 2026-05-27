@@ -12,8 +12,10 @@ app.use((req, res, next) => {
   next();
 });
 
+const path = require('path')
 app.use('/api/router', booksRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join (__dirname, 'images')));
 
 const uri = "mongodb://Test1:vRqUvcPQUtXCkBw5@ac-uw0grdo-shard-00-00.tevb15e.mongodb.net:27017,ac-uw0grdo-shard-00-01.tevb15e.mongodb.net:27017,ac-uw0grdo-shard-00-02.tevb15e.mongodb.net:27017/?ssl=true&replicaSet=atlas-3o8cmx-shard-0&authSource=admin&appName=Cluster0";
 
