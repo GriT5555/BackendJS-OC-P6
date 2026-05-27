@@ -10,7 +10,7 @@ exports.signup = (req, res, next) => {
             password: hash
         });
         user.save()
-        .then(() => res.status(200).json({ message: 'User added !' }))
+        .then(() => res.status(201).json({ message: 'User added !' }))
         .catch(error => res.status(400).json({ error }))
     })
     .catch(error => res.status(500).json({ error }));
@@ -20,15 +20,15 @@ exports.login = (req, res, next) => {
     User.findOne({email: req.body.email})
     .then(user => {
         if (user === null) {
-            res.status(401).json({message:'Wrong email or password...'});
+            return res.status(401).json({message:'Wrong email or password...'});
         }
         else {
             bcrypt.compare(req.body.password, user.password)
             .then(valid => {
                 if (!valid) {
-                    res.status(401).json({message:'Wrong email or password...'});
+                    return res.status(401).json({message:'Wrong email or password...'});
                 } else {
-                    res.stats(200).json({
+                    res.status(200).json({
                         userId: user._id,
                         token: JWT.sign(
                             { userId: user._id },
