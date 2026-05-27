@@ -1,6 +1,7 @@
 const Book = require('../models/books');
 
 exports.createBook = (req, res, next) => {
+  console.log("CONTROLLER REACHED");
   const bookObject = JSON.parse(req.body.book);
   delete bookObject._id;
   delete bookObject._userId;
