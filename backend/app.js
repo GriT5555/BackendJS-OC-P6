@@ -12,10 +12,6 @@ app.use((req, res, next) => {
   next();
 });
 
-/*app.get('/api/books/test', (req, res) => {
-  res.json({ ok: true });
-});*/
-
 const path = require('path')
 app.use('/books', booksRoutes);
 app.use('/api/books', booksRoutes);
@@ -31,16 +27,15 @@ mongoose.connect(uri, {
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log("MongoDB error:", err));
 
-/*const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-/*const uri =  "mongodb://Test1:vRqUvcPQUtXCkBw5@ac-uw0grdo-shard-00-00.tevb15e.mongodb.net:27017,ac-uw0grdo-shard-00-01.tevb15e.mongodb.net:27017,ac-uw0grdo-shard-00-02.tevb15e.mongodb.net:27017/?ssl=true&replicaSet=atlas-3o8cmx-shard-0&authSource=admin&appName=Cluster0";
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
   }
-});*/
+});
 async function run() {
   try {
     await client.connect();
