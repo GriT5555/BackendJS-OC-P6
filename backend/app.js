@@ -3,7 +3,6 @@ const app = express();
 const booksRoutes = require('./routes/router');
 const userRoutes = require('./routes/Useroute')
 const mongoose = require('mongoose')
-app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -12,7 +11,9 @@ app.use((req, res, next) => {
   next();
 });
 
-const path = require('path')
+app.use(express.json());
+
+const path = require('path');
 app.use('/books', booksRoutes);
 app.use('/api/books', booksRoutes);
 app.use('/api/router', booksRoutes);

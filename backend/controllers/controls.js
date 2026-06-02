@@ -1,4 +1,5 @@
 const Book = require('../models/books');
+const fs = require('fs')
 
 exports.createBook = (req, res, next) => {
 
@@ -17,22 +18,24 @@ exports.createBook = (req, res, next) => {
 };
 
 exports.updateBook = (req, res, next) => {
-  Book.updateOne(
-    {_id: req.params.id},
-    { $set: req.body }
-  )
-    .then(() => {
-      res.status(201).json({
-        message: 'Book updated successfully!'
-      });
+  Book.findOne ({_id: req.params.id })
+  .then((book) => {
+      const bookObject = req.file ? {
+    ...JSON.parse(req.body.book),
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
+  } : { ...req.body,
+    imageUrl: book.imageUrl
+  };
+  delete bookObject._userId;
+    if(book.userId != req.auth.userId) {
+      res.status(403).json({ message: "Not allowed"});
+    } else {
+      Book.updateOne({_id: req.params.id}, {...bookObject, _id: req.params.id})
+      .then(() => res.status(200).json({message: "Book updated!"}))
+      .catch(error => res.status(403).json({error}));
     }
-  ).catch(
-    (error) => {
-      res.status(400).json({        
-        error: error
-      });
-    }
-  );
+  })
+  .catch((error) => res.status(400).json({error}));
 };
 
 exports.deleteBook = (req, res, next) => {
