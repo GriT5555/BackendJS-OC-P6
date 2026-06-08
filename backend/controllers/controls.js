@@ -21,7 +21,6 @@ exports.createBook = (req, res, next) => {
   } else {
     book.averageRating = 0;
   };
-  console.log("note moyenne:", book.averageRating);
   book.save()
   .then(() => { res.status(201).json({message: "Book uploaded!"})})
   .catch(error => 
@@ -56,12 +55,9 @@ exports.updateBook = (req, res, next) => {
   if (book.ratings && book.ratings.length>0) {
     const Total = book.ratings.reduce((sum, ratings) => sum + ratings.grade, 0);
     book.averageRating = Total / book.ratings.length;
-    console.log(book.averageRating);
   } else {
     book.averageRating = 0;
   };
-
-  console.log("updated average rating", book.averageRating);
 
   return book.save();
   })
@@ -115,37 +111,34 @@ exports.everyBook = (req, res, next) => {
 /* store and calcs ratings+ avg ratings */ 
 
 exports.rateBook = (req, res, next) => {
-  const rating = req.body.rating; 
+  const grade = req.body.rating; 
   const userId = req.auth.userId;
 
-  console.log(rating, userId);
-
-  if (!rating && rating <= 0) {
+  if (grade === undefined || grade === null) {
+  return res.status(400).json({ 
+    message: "Rating value missing. Sent body: " + JSON.stringify(req.body) 
+  });
+}
+  if (!grade && grade <= 0) {
     return res.status(400).json({ message: "Rating value missing" })
   }
-  console.log(req.params.id);
   Book.findOne({ _id:req.params.id })
     .then((book) => {
-      console.log("hello");
       if (!book) {
         return res.status(404).json({ message: "Book not found" })
       }
-      console.log(book);
       const userRating = book.ratings.findIndex(rating => rating.userId === userId);
-      console.log(userRating);
       if(userRating > -1) {
-        book.ratings[userRating].grade = rating;
+        book.ratings[userRating].grade = grade;
       } else {
         book.ratings.push({ userId, grade });
       }
-      console.log(book);
       if (book.ratings && book.ratings.length > 0) {
         const Total = book.ratings.reduce((sum, ratings) => sum + ratings.grade, 0);
         book.averageRating = Total / book.ratings.length;
       } else {
         book.averageRating = 0;
       }
-      console.log("save");
       return book.save();
     })
     .then((updatedBook) => {
