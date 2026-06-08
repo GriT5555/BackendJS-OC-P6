@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
 router.post('/', auth, multer, booksCtrl.createBook);
+router.post('/:id/rating', auth, booksCtrl.rateBook);
 router.put('/:id', auth, multer, booksCtrl.updateBook);
 router.delete('/:id', auth, booksCtrl.deleteBook);
 router.get('/:id', booksCtrl.oneBook);
