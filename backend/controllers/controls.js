@@ -146,3 +146,23 @@ exports.rateBook = (req, res, next) => {
     })
     .catch(error => res.status(400).json({error}));
 }
+
+/* sort in declining order, then pick up the first three items (3 best ratings) */ 
+
+exports.big3 = (req, res, next) => {
+  Book.find()
+    .sort({ averageRating: -1 })
+    .limit(3)
+    .then((books) => {
+      const targetedBooks = books.map(book => {
+        const big3Object = book.toObject();
+        big3Object.id = big3Object._id;
+        return big3Object;
+      });
+      res.status(200).json(targetedBooks);
+    })
+    .catch((error) => {
+      console.error("Error fetching best rated books", error);
+      res.status(403).json({error});
+    })
+}
