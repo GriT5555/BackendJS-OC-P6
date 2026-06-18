@@ -43,7 +43,7 @@ exports.updateBook = (req, res, next) => {
       if (req.file) {
         const previousImage = book.imageUrl.split('/images/')[1];
         if (previousImage) {
-          const previousPath = path.join(__dirname, '..', 'images', previousImage);
+          const previousPath = path.join(__dirname, '..', 'images', previousImage); // on vérifie que si une nouvelle image est uploadée, l'ancienne existe
 
           fs.unlink(previousPath, (err) => {
             if (err) {
