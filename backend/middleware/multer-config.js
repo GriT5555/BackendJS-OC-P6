@@ -39,7 +39,7 @@ const MIME_TYPES = {
 }; // formats acceptés
 
 
-const storage = multer.memoryStorage(); // stockage du fichier pre modif pour l'upload en DB avec modif
+const storage = multer.memoryStorage(); // stockage du fichier pre modif dans la RAM pour l'upload en DB avec modif
 
 const fileFilter = (req, file, callback) => {
   if (MIME_TYPES[file.mimetype]) {
@@ -56,7 +56,6 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 }).single('image');
 
-// 3. Middleware Wrapper to Process Image with Sharp
 const processImage = (req, res, next) => {
   if (!req.file) {
     return next();
